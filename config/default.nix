@@ -4,23 +4,173 @@
   imports = [
     ./agda.nix
     {
-      plugins.lualine.enable = true;
-      plugins.neo-tree = {
-        enable = true;
-        window.width = 30;
-        openFilesInLastWindow = false;
-        sources = [ "filesystem" "buffers" "git_status" ];
-      };
+      #extraPlugins = [
+      #  pkgs.vimPlugins.nvchad-ui
+      #  pkgs.vimPlugins.base46
+      #];
+      #extraConfigLua = '' 
+      #   require "nvchad"
+      #   require "base46"
+      #'';
+      #plugins.lualine.enable = true;
+        
+      ###################################################
+      #globals.base46_cache.__raw = ''vim.fn.stdpath "data" .. "/base46/"'';
+      #extraConfigLuaPost = ''
+      #  dofile(vim.g.base46_cache .. "defaults")
+      #  dofile(vim.g.base46_cache .. "statusline")
+      #'';
+      ###################################################
+      #plugins.neo-tree = {
+      #  enable = true;
+      #  window.width = 30;
+      #  openFilesInLastWindow = false;
+      #  sources = [ "filesystem" "buffers" "git_status" ];
+      #};
       plugins.which-key.enable = true;
       plugins.markdown-preview.enable = true;
       plugins.auto-session.enable = true;
       plugins.trouble.enable = true; # inline warnings
+      plugins.nvim-tree.enable = true;
+      plugins.gitsigns.enable = true;
       plugins.floaterm = {
         enable = true;
         wintype = "split";
         height = 0.15;
       };
+      plugins.web-devicons = {
+        enable = true;
+      };
       plugins.multicursors.enable = true;
+      plugins.notify = {
+        enable = true;
+        backgroundColour = "#000000";
+        fps = 60;
+        render = "default";
+        timeout = 2000;
+        topDown = true;
+      };
+      plugins.persistence = {
+        enable = true;
+      };
+      plugins.indent-blankline = {
+        enable = true;
+      };
+      plugins.barbecue = {
+        enable = true;
+      };
+      plugins.alpha = {
+        enable = true;
+        theme = null;
+        layout =
+          let
+            padding = val: {
+              type = "padding";
+              inherit val;
+            };
+          in
+          [
+            (padding 4)
+            {
+              opts = {
+                hl = "AlphaHeader";
+                position = "center";
+              };
+              type = "text";
+              val = [
+                "   ███▄    █ ▓█████ ██▒   █▓▓█████   "
+                "   ██ ▀█   █ ▓█   ▀▓██░   █▒▓█   ▀   "
+                "  ▓██  ▀█ ██▒▒███   ▓██  █▒░▒███     "
+                "  ▓██▒  ▐▌██▒▒▓█  ▄  ▒██ █░░▒▓█  ▄   "
+                "  ▒██░   ▓██░░▒████▒  ▒▀█░  ░▒████▒  "
+                "  ░ ▒░   ▒ ▒ ░░ ▒░ ░  ░ ▐░  ░░ ▒░ ░  "
+                "  ░ ░░   ░ ▒░ ░ ░  ░  ░ ░░   ░ ░  ░  "
+                "     ░   ░ ░    ░       ░░     ░     "
+                "           ░    ░  ░     ░     ░  ░  "
+                "                        ░            "
+                "                                     "
+                "      git@github.com:redyf/neve      "
+              ];
+            }
+            (padding 2)
+            { type = "button"; val = "  Find File"; on_press = { __raw = "function() require('telescope.builtin').find_files() end"; };
+              opts = {
+                # hl = "comment";
+                keymap = [ "n" "f" ":Telescope find_files <CR>" { noremap = true; silent = true; nowait = true; } ];
+                shortcut = "f";
+                position = "center";
+                cursor = 3;
+                width = 38;
+                align_shortcut = "right";
+                hl_shortcut = "Keyword";
+              };
+            }
+            (padding 1)
+            { type = "button"; val = "  New File"; on_press = { __raw = "function() vim.cmd[[ene]] end"; };
+              opts = {
+                # hl = "comment";
+                keymap = [ "n" "n" ":ene <BAR> startinsert <CR>" { noremap = true; silent = true; nowait = true; } ];
+                shortcut = "n";
+                position = "center";
+                cursor = 3;
+                width = 38;
+                align_shortcut = "right";
+                hl_shortcut = "Keyword";
+              };
+            }
+            (padding 1)
+            { type = "button"; val = "󰈚  Recent Files"; on_press = { __raw = "function() require('telescope.builtin').oldfiles() end"; };
+              opts = { 
+                # hl = "comment"; keymap = [ "n" "r" ":Telescope oldfiles <CR>" { noremap = true; silent = true; nowait = true; } ];
+                shortcut = "r";
+                position = "center";
+                cursor = 3;
+                width = 38;
+                align_shortcut = "right";
+                hl_shortcut = "Keyword";
+              };
+            }
+            (padding 1)
+            { type = "button"; val = "󰈭  Find Word"; on_press = { __raw = "function() require('telescope.builtin').live_grep() end"; };
+              opts = {
+                # hl = "comment";
+                keymap = [ "n" "g" ":Telescope live_grep <CR>" { noremap = true; silent = true; nowait = true; } ];
+                shortcut = "g";
+                position = "center";
+                cursor = 3;
+                width = 38;
+                align_shortcut = "right";
+                hl_shortcut = "Keyword";
+              };
+            }
+            (padding 1)
+            { type = "button"; val = "  Restore Session"; on_press = { __raw = "function() require('persistence').load() end"; };
+              opts = {
+                # hl = "comment";
+                keymap = [ "n" "s" ":lua require('persistence').load()<cr>" { noremap = true; silent = true; nowait = true; } ];
+                shortcut = "s";
+                position = "center";
+                cursor = 3;
+                width = 38;
+                align_shortcut = "right";
+                hl_shortcut = "Keyword";
+              };
+            }
+            (padding 1)
+            { type = "button"; val = "  Quit Neovim"; on_press = { __raw = "function() vim.cmd[[qa]] end"; };
+              opts = {
+                # hl = "comment";
+                keymap = [ "n" "q" ":qa<CR>" { noremap = true; silent = true; nowait = true; } ];
+                shortcut = "q";
+                position = "center";
+                cursor = 3;
+                width = 38;
+                align_shortcut = "right";
+                hl_shortcut = "Keyword";
+              };
+            }
+          ];
+      };
     }
     {
       globals.mapleader = " ";
@@ -48,7 +198,7 @@
         foldcolumn = "1"; # show foldcolumn
         # UI
         fillchars = { eob = " "; }; # disable `~` on nonexistent lines
-        cmdheight = 0; # hide command line unless needed
+        cmdheight = 1; # hide command line unless needed
         laststatus = 3; # global statusline
         shortmess = "Is"; # disable startup message and search wrap
         # Searching
