@@ -31,7 +31,18 @@
       plugins.markdown-preview.enable = true;
       plugins.auto-session.enable = true;
       plugins.trouble.enable = true; # inline warnings
-      plugins.nvim-tree.enable = true;
+      plugins.neo-tree = {
+        enable = true;  
+        window.width = 30;
+        #openFilesInLastWindow = false;
+        #retainHiddenRootIndent = true;
+        closeIfLastWindow = true;
+        #hideRootNode = true;
+        #addBlankLineAtTop = true;
+      };
+      plugins.telescope = {
+        enable = true;
+      };
       plugins.gitsigns.enable = true;
       plugins.floaterm = {
         enable = true;
