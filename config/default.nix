@@ -12,7 +12,7 @@
       #   require "nvchad"
       #   require "base46"
       #'';
-      #plugins.lualine.enable = true;
+      plugins.lualine.enable = true;
         
       ###################################################
       #globals.base46_cache.__raw = ''vim.fn.stdpath "data" .. "/base46/"'';
@@ -21,34 +21,38 @@
       #  dofile(vim.g.base46_cache .. "statusline")
       #'';
       ###################################################
-      #plugins.neo-tree = {
-      #  enable = true;
-      #  window.width = 30;
-      #  openFilesInLastWindow = false;
-      #  sources = [ "filesystem" "buffers" "git_status" ];
-      #};
       plugins.which-key.enable = true;
       plugins.markdown-preview.enable = true;
       plugins.auto-session.enable = true;
       plugins.trouble.enable = true; # inline warnings
+      plugins.lazygit.enable = true;
       plugins.neo-tree = {
         enable = true;  
         window.width = 30;
-        #openFilesInLastWindow = false;
-        #retainHiddenRootIndent = true;
+        retainHiddenRootIndent = true;
         closeIfLastWindow = true;
-        #hideRootNode = true;
-        #addBlankLineAtTop = true;
+        filesystem.filteredItems.showHiddenCount = false;
+        filesystem.groupEmptyDirs = false;
+        defaultComponentConfigs.indent.withExpanders = true;
+        hideRootNode = true;
       };
       plugins.telescope = {
         enable = true;
       };
       plugins.gitsigns.enable = true;
-      plugins.floaterm = {
+      plugins.bufferline = {
         enable = true;
-        wintype = "split";
-        height = 0.15;
-      };
+      };  
+      plugins.toggleterm = {
+        enable = true;
+        settings.direction = "horizontal";
+      };  
+      #plugins.floaterm = {
+      #  enable = true;
+      #  wintype = "split";
+      #  height = 0.15;
+      #  autoclose = 1;
+      #};
       plugins.web-devicons = {
         enable = true;
       };
@@ -71,7 +75,7 @@
         enable = true;
       };
       plugins.alpha = {
-        enable = true;
+        enable = false;
         theme = null;
         layout =
           let
@@ -240,8 +244,6 @@
         viewoptions = [ "cursor" "folds" "curdir" ];
       };
       keymaps = [
-        { key = ";"; action = ":"; }
-        { mode = "n"; key = "<leader>m"; options.silent = true; action = "<cmd>!make<CR>"; }
       ];
     }
   ];
