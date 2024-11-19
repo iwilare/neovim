@@ -1,4 +1,4 @@
-{ pkgs, inputs, ... }:
+{ pkgs, inputs, helpers, ... }:
 {
   # Import all your configuration modules here
   imports = [
@@ -26,11 +26,14 @@
       plugins.auto-session.enable = true;
       plugins.trouble.enable = true; # inline warnings
       plugins.lazygit.enable = true;
+      colorschemes.vscode.enable = true;
+      plugins.nvim-ufo.enable = true;
       plugins.neo-tree = {
         enable = true;  
-        window.width = 30;
+        window.width = 27;
         retainHiddenRootIndent = true;
         closeIfLastWindow = true;
+        autoCleanAfterSessionRestore = true;
         filesystem.filteredItems.showHiddenCount = false;
         filesystem.groupEmptyDirs = false;
         defaultComponentConfigs.indent.withExpanders = true;
@@ -43,16 +46,29 @@
       plugins.bufferline = {
         enable = true;
       };  
+      plugins.cmp = {
+        enable = true;
+        autoEnableSources = true;
+      };
+      plugins.lsp = {
+        enable = true;
+        servers = {
+          jsonls.enable = true;
+          nil_ls = {
+            enable = true;
+            settings.formatting.command = ["${pkgs.alejandra}/bin/alejandra"];
+          };
+        };
+      };
+      plugins.treesitter = {
+        enable = true;
+        settings.indent.enable = true;
+        settings.highlight.enable = true;
+      };
       plugins.toggleterm = {
         enable = true;
         settings.direction = "horizontal";
       };  
-      #plugins.floaterm = {
-      #  enable = true;
-      #  wintype = "split";
-      #  height = 0.15;
-      #  autoclose = 1;
-      #};
       plugins.web-devicons = {
         enable = true;
       };
@@ -65,9 +81,9 @@
         timeout = 2000;
         topDown = true;
       };
-      plugins.persistence = {
-        enable = true;
-      };
+      #plugins.persistence = {
+      #  enable = true;
+      #};
       plugins.indent-blankline = {
         enable = true;
       };
@@ -186,6 +202,18 @@
             }
           ];
       };
+      plugins.statuscol = { # https://github.com/niksingh710/nvix/blob/068c9bf38e89138758cb1cc35fc88ff8fcea98d2/config/base/ufo.nix#L20
+        enable = true;
+        settings = {
+          relculright = true;
+          ft_ignore = [ "dashboard" "neo-tree" ];
+          segments = [
+            { click = "v:lua.ScFa"; text = [ (helpers.mkRaw "require('statuscol.builtin').foldfunc") ]; }
+            { click = "v:lua.ScSa"; text = [ " %s" ]; }
+            { click = "v:lua.ScLa"; text = [ (helpers.mkRaw "require('statuscol.builtin').lnumfunc") " " ]; }
+          ];
+        };
+      };
     }
     {
       globals.mapleader = " ";
@@ -212,7 +240,7 @@
         foldenable = true; # enable fold for nvim-ufo
         foldcolumn = "1"; # show foldcolumn
         # UI
-        fillchars = { eob = " "; }; # disable `~` on nonexistent lines
+        fillchars = { eob = " "; fold = " "; foldopen = ""; foldsep = " "; foldclose = ""; };
         cmdheight = 1; # hide command line unless needed
         laststatus = 3; # global statusline
         shortmess = "Is"; # disable startup message and search wrap
